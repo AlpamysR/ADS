@@ -27,8 +27,9 @@ int main() {
             }
         }
         if ((int)levelSum.size() <= depth) levelSum.push_back(0);
-        levelSum[depth] += val[i];
+        levelSum[depth] += val[i];  
     }
+
 
     cout << levelSum.size() << "\n";
     for (size_t i = 0; i < levelSum.size(); i++) {

@@ -1,57 +1,52 @@
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
 
-struct Node {
-    int val;
-    Node* left;
-    Node* right;
-    Node(int v) : val(v), left(nullptr), right(nullptr) {}
-};
-
-Node* insert(Node* root, int v) {
-    if (root == nullptr) return new Node(v);
-    if (v < root->val) root->left = insert(root->left, v);
-    else root->right = insert(root->right, v);
-    return root;
-}
-
-Node* find(Node* root, int x) {
-    while (root != nullptr && root->val != x) {
-        if (x < root->val) root = root->left;
-        else root = root->right;
-    }
-    return root;
-}
-
-int subtreeSize(Node* root) {
-    if (root == nullptr) return 0;
-    return 1 + subtreeSize(root->left) + subtreeSize(root->right);
-}
-
-void freeTree(Node* root) {
-    if (root == nullptr) return;
-    freeTree(root->left);
-    freeTree(root->right);
-    delete root;
-}
-
 int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
     int n;
     cin >> n;
 
-    Node* root = nullptr;
-    for (int i = 0; i < n; i++) {
-        int a;
-        cin >> a;
-        root = insert(root, a);
-    }
+    vector<long long> val(n);
+    vector<int> L(n, -1), R(n, -1);
 
-    int x;
+    for (int i = 0; i < n; i++) cin >> val[i];
+
+    long long x;
     cin >> x;
 
-    Node* target = find(root, x);
-    cout << subtreeSize(target) << endl;
+    for (int i = 1; i < n; i++) {
+        int cur = 0;
+        while (true) {
+            if (val[i] < val[cur]) {
+                if (L[cur] == -1) { L[cur] = i; break; }
+                cur = L[cur];
+            } else {
+                if (R[cur] == -1) { R[cur] = i; break; }
+                cur = R[cur];
+            }
+        }
+    }
 
-    freeTree(root);
+                                                            
+    int start = 0;
+    for (int i = 0; i < n; i++) {
+        if (val[i] == x) { start = i; break; }
+    }
+
+
+    int count = 0;
+    vector<int> st;
+    st.push_back(start);
+    while (!st.empty()) {
+        int u = st.back();
+        st.pop_back();
+        count++;
+        if (L[u] != -1) st.push_back(L[u]);
+        if (R[u] != -1) st.push_back(R[u]);
+    }
+
+    cout << count << "\n";
     return 0;
 }

@@ -1,55 +1,55 @@
-#include <iostream>
+#include <bits/stdc++.h>
+
 using namespace std;
 
-struct Node {
-    int val;
-    Node* left;
-    Node* right;
-    Node(int v) : val(v), left(nullptr), right(nullptr) {}
-};
-
-Node* insert(Node* root, int v) {
-    if (root == nullptr) return new Node(v);
-    if (v < root->val) root->left = insert(root->left, v);
-    else root->right = insert(root->right, v);
-    return root;
-}
-
-Node* find(Node* root, int x) {
-    while (root != nullptr && root->val != x) {
-        if (x < root->val) root = root->left;
-        else root = root->right;
-    }
-    return root;
-}
-
-void preorder(Node* root, bool &first) {
-    if (root == nullptr) return;
-    if (!first) cout << " ";
-    cout << root->val;
-    first = false;
-    preorder(root->left, first);
-    preorder(root->right, first);
-}
-
-int main() {
+int main(){
     int n;
-    cin >> n;
+    cin>>n;
 
-    Node* root = nullptr;
-    for (int i = 0; i < n; i++) {
-        int a;
-        cin >> a;
-        root = insert(root, a);
+    vector<int> a(n);
+    vector<int> L(n, -1), R(n, -1);
+    for(int i = 0; i<n; ++i) cin>>a[i];
+
+    int x;
+    cin>>x;
+    for(int i = 1; i<n; ++i){
+        int cur = 0;
+        while(true){
+            if(a[i]<a[cur]){
+                if(L[cur]==-1){
+                    L[cur]=i;
+                    break;
+                }
+                cur = L[cur];
+            }
+            else{
+                if(R[cur]==-1){
+                    R[cur]=i;
+                    break;
+                }
+                cur=R[cur];
+            }
+        }
+    }
+    int start = 0;
+    for(int i = 0; i<n; ++i){
+        if(a[i]==x){
+            start = i;
+            break;
+        }
     }
 
-    int k;
-    cin >> k;
-
-    Node* target = find(root, k);
+    vector<int> st;
+    st.push_back(start);
     bool first = true;
-    preorder(target, first);
-    cout << endl;
-
+    while(!st.empty()){
+        int b = st.back();
+        st.pop_back();
+        if(!first) cout<<" ";
+        cout<<a[b];
+        first = false;
+        if(R[b]!=-1) st.push_back(R[b]);
+        if(L[b]!=-1) st.push_back(L[b]);
+    }
     return 0;
 }

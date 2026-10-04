@@ -5,7 +5,6 @@ struct Node {
     int val;
     int left, right;
 };
-
 vector<Node> tree;
 
 int main() {
@@ -16,7 +15,6 @@ int main() {
     cin >> n >> m;
 
     tree.reserve(n);
-
     for (int i = 0; i < n; i++) {
         int x;
         cin >> x;
@@ -34,14 +32,14 @@ int main() {
             if (x <= tree[cur].val) {            
                 if (tree[cur].left == -1) {
                     tree.push_back({x, -1, -1});
-                    tree[cur].left = (int)tree.size() - 1;
+                    tree[cur].left = tree.size() - 1;
                     break;
                 }
                 cur = tree[cur].left;
             } else {
                 if (tree[cur].right == -1) {
                     tree.push_back({x, -1, -1});
-                    tree[cur].right = (int)tree.size() - 1;
+                    tree[cur].right = tree.size() - 1;
                     break;
                 }
                 cur = tree[cur].right;
