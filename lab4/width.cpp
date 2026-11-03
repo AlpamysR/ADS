@@ -1,36 +1,30 @@
-#include <iostream>
-#include <vector>
-#include <queue>
-#include <algorithm>
+#include <bits/stdc++.h>
+
 using namespace std;
 
-int main() {
+int main(){
     int n;
-    cin >> n;
-
-    vector<int> lft(n + 1, 0), rgt(n + 1, 0);
-    for (int i = 0; i < n - 1; ++i) {
+    cin>>n;
+    vector<int> left(n+1, 0), right(n+1, 0);
+    for(int i =0; i<n; ++i){
         int x, y, z;
-        cin >> x >> y >> z;
-        if (z == 0) lft[x] = y;
-        else rgt[x] = y;
+        cin>>x>>y>>z;
+        if(z==0) left[x] = y;
+        else right[x]=y;
     }
-
     int best = 0;
-    queue<int> q;
-    q.push(1);
-
-    while (!q.empty()) {
-        int sz = q.size();
+    queue<int> st;
+    st.push(1);
+    while(!st.empty()){
+        int sz = st.size();
         best = max(best, sz);
-        for (int i = 0; i < sz; ++i) {
-            int cur = q.front();
-            q.pop();
-            if (lft[cur]) q.push(lft[cur]);
-            if (rgt[cur]) q.push(rgt[cur]);
+        for(int i = 0; i<sz; ++i){
+            int cur = st.front();
+            st.pop();
+            if(left[cur]) st.push(left[cur]);
+            if(right[cur]) st.push(right[cur]);
         }
     }
-
-    cout << best << endl;
+    cout<<best;
     return 0;
 }
