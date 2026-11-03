@@ -1,47 +1,50 @@
 #include <bits/stdc++.h>
 using namespace std;
-struct Student{
+
+struct Student {
     string last, first;
     long long num, den;
     double gpa;
 };
-bool cmp(const Student &a, const Student &b){
-    long long l = a.num*b.den;
-    long long r = b.num*a.den;
-    if(l!=r) return l<r;
-    if(a.last!=b.last) return a.last <b.last;
-    return a.first <b.first;
-}
-void r(vector<Student> &a){
-    int n = a.size();
-    for(int i = 0; i<n-1; ++i){
-        for(int j =0; j<n-i-1; ++j){
-            if(cmp(a[j+1], a[j])) swap(a[j], a[j+1]);
-        }
-    }
-}
-int main(){
-    map<string, int> points = {
-        {"A+", 400}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    map<string, int> scale = {
+        {"A+", 400}, {"A", 375}, {"B+", 350}, {"B", 300}, {"C+", 250},
+        {"C", 200}, {"D+", 150}, {"D", 100}, {"F", 0}
     };
+
     int n;
-    cin>>n;
-    vector<Student> a(n);
-    for(auto &x : a){
+    cin >> n;
+
+    vector<Student> v(n);
+    for (auto &s : v) {
         int m;
-        cin>>x.last>>x.first>>m;
-        x.num= 0;
-        x.den =0;
-        for(int i =0;i<m; ++i){
-            string s;
+        cin >> s.last >> s.first >> m;
+        s.num = 0;
+        s.den = 0;
+        for (int i = 0; i < m; i++) {
+            string g;
             long long c;
-            cin>>s>>c;
-            x.num += points[s] * c;
-            x.den += c;
+            cin >> g >> c;
+            s.num += scale[g] * c;
+            s.den += c;
         }
-        x.gpa = (double)x.num/100.0/(double)x.den;
+        s.gpa = (double)s.num / 100.0 / (double)s.den;
     }
-    r(a);
-    for(auto &x : a) printf("%s %s %.3f\n", x.last.c_str(), x.first.c_str(), x.gpa);
+
+    sort(v.begin(), v.end(), [](const Student &a, const Student &b) {
+        __int128 l = (__int128)a.num * b.den;
+        __int128 r = (__int128)b.num * a.den;
+        if (l != r) return l < r;
+        if (a.last != b.last) return a.last < b.last;
+        return a.first < b.first;
+    });
+
+    for (auto &s : v)
+        printf("%s %s %.3f\n", s.last.c_str(), s.first.c_str(), s.gpa);
+
     return 0;
 }
