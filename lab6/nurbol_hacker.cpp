@@ -28,8 +28,4 @@ int main() {
     for (auto &p : fin)
         cout << p.first << " " << p.second << "\n";
     return 0;
-<<<<<<< HEAD
 }
-=======
-}   
->>>>>>> 567d3d746a0b8212ae70549938b46236ff374e19
