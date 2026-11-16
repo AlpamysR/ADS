@@ -8,7 +8,7 @@ int main() {
     string s, t;
     long long K;
     cin >> s >> K >> t;
-    int m = s.size(), n = t.size();
+    int m = s.size();
 
     vector<int> pi(m, 0);
     for (int i = 1; i < m; i++) {
@@ -20,7 +20,7 @@ int main() {
 
     long long cnt = 0;
     int k = 0;
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < t.size(); i++) {
         while (k > 0 && (k == m || t[i] != s[k])) k = pi[k - 1];
         if (t[i] == s[k]) k++;
         if (k == m) cnt++;
